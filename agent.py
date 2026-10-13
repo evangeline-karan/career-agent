@@ -36,7 +36,11 @@ def analyze(user_skills):
 
 def explain(result):
     # Connect to Groq using the key we stored in the terminal
-    client = Groq(api_key=os.environ["GROQ_API_KEY"])
+        api_key = os.environ.get("GROQ_API_KEY")
+    if not api_key:
+        import streamlit as st
+        api_key = st.secrets["GROQ_API_KEY"]
+    client = Groq(api_key=api_key)
 
     prompt = f"""You are a friendly career coach.
 Explain this result to a student in simple words, in 5 short sentences or fewer.
